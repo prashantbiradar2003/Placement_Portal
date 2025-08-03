@@ -1,4 +1,3 @@
-<!-- client/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,7 +108,7 @@
   <div class="container">
     <h1>Create Account</h1>
     
-  <form id="registerForm">
+    <form id="registerForm">
       <div class="form-group">
         <label for="name">Full Name</label>
         <input type="text" id="name" placeholder="Enter your full name" required />
@@ -148,8 +147,8 @@
         </select>
       </div>
       
-    <button type="submit">Register</button>
-  </form>
+      <button type="submit">Register</button>
+    </form>
 
     <p id="registerMsg" class="message"></p>
     
@@ -159,66 +158,51 @@
     </div>
   </div>
 
+  <!-- Load config.js -->
+  <script src="config.js"></script>
+
   <script>
-    // Check if user is already logged in - redirect if they are
     function checkLoginStatus() {
       const token = localStorage.getItem("token");
-      
       if (token) {
         try {
-          // Verify token validity by checking expiration
           const payload = JSON.parse(atob(token.split(".")[1]));
           const currentTime = Math.floor(Date.now() / 1000);
-          
           if (payload.exp && payload.exp > currentTime) {
-            // Valid token, redirect to dashboard
             window.location.href = "dashboard.html";
             return;
           } else {
-            // Expired token
             localStorage.removeItem("token");
           }
         } catch (e) {
-          // Invalid token format
           localStorage.removeItem("token");
         }
       }
     }
-    
-    // Run the check when page loads
-    window.addEventListener('DOMContentLoaded', checkLoginStatus);
-    
-    // Show/hide student fields based on role selection
-    document.getElementById("role").addEventListener("change", function() {
+
+    window.addEventListener("DOMContentLoaded", checkLoginStatus);
+
+    document.getElementById("role").addEventListener("change", function () {
       const studentFields = document.getElementById("studentFieldsContainer");
-      if (this.value === "student") {
-        studentFields.style.display = "block";
-      } else {
-        studentFields.style.display = "none";
-      }
+      studentFields.style.display = this.value === "student" ? "block" : "none";
     });
-    
-    // Initialize student fields visibility based on default role
-    document.addEventListener("DOMContentLoaded", function() {
+
+    document.addEventListener("DOMContentLoaded", function () {
       const roleSelect = document.getElementById("role");
       const studentFields = document.getElementById("studentFieldsContainer");
-      if (roleSelect.value === "student") {
-        studentFields.style.display = "block";
-      }
+      studentFields.style.display = roleSelect.value === "student" ? "block" : "none";
     });
-    
-    // Handle registration form submission
+
     document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const name = document.getElementById("name").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const role = document.getElementById("role").value;
-      
-      // Collect registration data
+
       const registrationData = { name, email, password, role };
-      
-      // Add department if student role is selected
+
       if (role === "student") {
         const department = document.getElementById("department").value;
         if (!department) {
@@ -227,34 +211,31 @@
         }
         registrationData.department = department;
       }
-      
+
       document.getElementById("registerMsg").innerText = "Registering...";
       document.getElementById("registerMsg").className = "message";
-      
+
       try {
-        const res = await fetch("http://localhost:5000/api/auth/register", {
+        const apiUrl = getApiUrl("/api/auth/register");
+        const res = await fetch(apiUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(registrationData),
         });
-        
+
         const data = await res.json();
-        
+        console.log("Response:", res.status, data);
+
         if (res.ok) {
           document.getElementById("registerMsg").innerText = "Registration successful! Redirecting to login...";
           document.getElementById("registerMsg").className = "message success";
-          
-          // Clear the form
           document.getElementById("registerForm").reset();
-          
-          // Redirect to login page after 2 seconds
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
+          setTimeout(() => (window.location.href = "login.html"), 2000);
         } else {
           document.getElementById("registerMsg").innerText = data.msg || "Registration failed. Please try again.";
         }
       } catch (err) {
+        console.error("Error:", err);
         document.getElementById("registerMsg").innerText = "Server error. Please try again later.";
       }
     });
