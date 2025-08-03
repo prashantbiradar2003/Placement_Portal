@@ -5,6 +5,13 @@ const baseURL = window.location.hostname === 'localhost' || window.location.host
   ? "http://localhost:5000/api/auth"
   : "https://your-backend-app.onrender.com/api/auth"; // Replace with your Render URL
 
+// ✅ Global API URL builder
+function getApiUrl(endpoint) {
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? `http://localhost:5000${endpoint}`
+    : `https://your-backend-app.onrender.com${endpoint}`;
+}
+
 // ✅ PING TEST
 function pingServer() {
   fetch(`${window.location.origin}/`)
@@ -70,14 +77,14 @@ document.addEventListener("DOMContentLoaded", function() {
 // Check if user is logged in and redirect if needed
 function checkLoginStatus() {
   const token = localStorage.getItem("token");
-  
+
   // If on login or register page, redirect to dashboard if logged in
   if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html')) && token) {
     try {
       // Verify token validity by checking expiration
       const payload = JSON.parse(atob(token.split(".")[1]));
       const currentTime = Math.floor(Date.now() / 1000);
-      
+
       if (payload.exp && payload.exp > currentTime) {
         // Valid token, redirect to dashboard
         window.location.href = "dashboard.html";
@@ -91,7 +98,7 @@ function checkLoginStatus() {
       localStorage.removeItem("token");
     }
   }
-  
+
   // If on protected page and not logged in, redirect to login
   if (!token && !window.location.pathname.includes('login.html') && 
       !window.location.pathname.includes('register.html') && 
@@ -106,25 +113,25 @@ function checkLoginStatus() {
 function updateNavbar() {
   const token = localStorage.getItem("token");
   if (!token) return;
-  
+
   try {
     // Parse user data from token
     const payload = JSON.parse(atob(token.split(".")[1]));
-    
+
     // Find navbar user elements
     const userNameElements = document.querySelectorAll('.user-name');
     const userRoleElements = document.querySelectorAll('.user-role');
-    
+
     if (userNameElements.length > 0 && payload.name) {
       userNameElements.forEach(el => el.textContent = payload.name);
     }
-    
+
     if (userRoleElements.length > 0 && payload.role) {
       userRoleElements.forEach(el => el.textContent = payload.role.toUpperCase());
     }
-    
+
     // Fetch fresh user data from API for more accurate information
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch(getApiUrl("/api/auth/me"), {
       headers: {
         Authorization: `Bearer ${token}`
       }
