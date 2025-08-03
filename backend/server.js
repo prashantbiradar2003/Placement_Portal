@@ -19,7 +19,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://college-placement-portal.netlify.app', 'https://college-placement-portal.com'] // Your Netlify URLs
+    ? ['https://688f30bb910bb1323321d3cb--imaginative-lolly-e68b0b.netlify.app', 'https://college-placement-portal.com'] // Your Netlify URLs
     : '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
