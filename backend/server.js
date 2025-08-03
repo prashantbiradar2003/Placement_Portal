@@ -66,7 +66,7 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://prashantbiradar:%23Pra
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
-    const PORT = process.env.PORT || 10000;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`🚀 Server running at http://localhost:${PORT}`);
     });
