@@ -17,13 +17,19 @@ dotenv.config();
 const app = express();
 
 // Middleware
+// app.use(cors({
+//   origin: process.env.NODE_ENV === 'production' 
+//     ? ['https://688f30bb910bb1323321d3cb--imaginative-lolly-e68b0b.netlify.app', 'https://college-placement-portal.com'] // Your Netlify URLs
+//     : '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://688f30bb910bb1323321d3cb--imaginative-lolly-e68b0b.netlify.app', 'https://college-placement-portal.com'] // Your Netlify URLs
-    : '*',
+  origin: '*', // 🔥 allow all for testing
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 // Increase JSON body parser limit
 app.use(express.json({ limit: '100mb' }));
 // Increase URL-encoded body parser limit
