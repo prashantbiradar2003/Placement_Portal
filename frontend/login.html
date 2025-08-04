@@ -156,25 +156,75 @@
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
 
-      document.getElementById("loginMsg").innerText = "Logging in...";
+      const loginMsg = document.getElementById("loginMsg");
+      loginMsg.innerText = "Logging in...";
+      loginMsg.style.color = "#666";
 
       try {
-        const res = await fetch(getApiUrl("/api/auth/login"), {
+        const apiUrl = getApiUrl("/api/auth/login");
+        console.log("🔐 Attempting login to:", apiUrl);
+        
+        const requestBody = JSON.stringify({ email, password });
+        console.log("📤 Request body:", { email, password: "***" });
+
+        const res = await fetch(apiUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: requestBody,
         });
 
+        console.log("📥 Response status:", res.status);
+        console.log("📥 Response headers:", Object.fromEntries(res.headers.entries()));
+
         const data = await res.json();
+        console.log("📥 Response data:", data);
 
         if (res.ok) {
+          console.log("✅ Login successful");
           localStorage.setItem("token", data.token);
-          window.location.href = "dashboard.html";
+          loginMsg.innerText = "Login successful! Redirecting...";
+          loginMsg.style.color = "#28a745";
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1000);
         } else {
-          document.getElementById("loginMsg").innerText = data.msg || "Login failed. Please check your credentials.";
+          console.error("❌ Login failed:", data);
+          loginMsg.innerText = data.msg || `Login failed (${res.status}). Please check your credentials.`;
+          loginMsg.style.color = "#dc3545";
         }
       } catch (err) {
-        document.getElementById("loginMsg").innerText = "Server error. Please try again later.";
+        console.error("🚨 Network error:", err);
+        loginMsg.innerText = `Network error: ${err.message}. Please check your internet connection and try again.`;
+        loginMsg.style.color = "#dc3545";
+      }
+    });
+
+    // Test API connectivity on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const testUrl = getApiUrl("/");
+        console.log("🧪 Testing API connectivity to:", testUrl);
+        
+        const response = await fetch(testUrl, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        console.log("🧪 API test response status:", response.status);
+        
+        if (response.ok) {
+          const text = await response.text();
+          console.log("🧪 API test response:", text);
+        } else {
+          console.error("🧪 API test failed:", response.status);
+        }
+      } catch (error) {
+        console.error("🧪 API connectivity test failed:", error);
       }
     });
   </script>

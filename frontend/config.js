@@ -12,9 +12,19 @@ const config = {
 
 // Helper function to build API URLs
 function getApiUrl(endpoint) {
-  return `${config.apiBaseUrl}${endpoint}`;
+  const fullUrl = `${config.apiBaseUrl}${endpoint}`;
+  console.log(`🌐 API Request: ${fullUrl}`); // Debug logging
+  return fullUrl;
 }
 
 // Export for use in other files
 window.appConfig = config;
-window.getApiUrl = getApiUrl; 
+window.getApiUrl = getApiUrl;
+
+// Debug logging
+console.log('🔧 Config loaded:', {
+  hostname: window.location.hostname,
+  apiBaseUrl: config.apiBaseUrl,
+  isDevelopment: config.isDevelopment,
+  isProduction: config.isProduction
+}); 
