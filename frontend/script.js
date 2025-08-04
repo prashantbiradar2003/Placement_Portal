@@ -14,7 +14,10 @@ function getApiUrl(endpoint) {
 
 // ✅ PING TEST
 function pingServer() {
-  fetch(`${window.location.origin}/`)
+  const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? "http://localhost:5000"
+    : "https://placement-portal-ir4x.onrender.com";
+  fetch(`${apiUrl}/`)
     .then(res => res.text())
     .then(data => alert(data))
     .catch(err => alert("Server Error!"));

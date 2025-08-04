@@ -659,7 +659,7 @@ function openResumeInNewTab(userId, event) {
   // Create a temporary form to submit the token as POST data
   const form = document.createElement('form');
   form.method = 'POST';
-  form.action = `${window.location.origin}/api/upload/resume/${userId}`;
+  form.action = `${getApiUrl('/api/upload/resume/')}${userId}`;
   form.target = '_blank';
   
   // Add token as hidden field

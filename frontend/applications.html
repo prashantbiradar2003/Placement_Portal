@@ -777,7 +777,7 @@
     let studentApplications = [];
     let serverBaseUrl = ['localhost', '127.0.0.1'].includes(window.location.hostname) ? 
       "http://localhost:5000" : 
-      window.location.origin; // Updated to handle both localhost and 127.0.0.1
+      "https://placement-portal-ir4x.onrender.com"; // ✅ Fixed to use correct backend URL
     
     // Define the allowed branches globally
     const allowedBranches = [

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Tool - Placement Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Placement Portal Debug Tool</h1>
+        <p>Use this tool to test all functionality and identify issues.</p>
+
+        <!-- API Configuration Test -->
+        <div class="test-section">
+            <h3>🌐 API Configuration Test</h3>
+            <button onclick="testApiConfig()">Test API Configuration</button>
+            <div id="apiConfigResult" class="result"></div>
+        </div>
+
+        <!-- Registration Test -->
+        <div class="test-section">
+            <h3>📝 Registration Test</h3>
+            <div class="form-group">
+                <label>Role:</label>
+                <select id="regRole">
+                    <option value="student">Student</option>
+                    <option value="officer">Placement Officer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="regName" value="Test User">
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="regEmail" value="test@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="regPassword" value="password123">
+            </div>
+            <div class="form-group" id="branchGroup" style="display: none;">
+                <label>Branch:</label>
+                <select id="regBranch">
+                    <option value="Computer Science Engineering">Computer Science Engineering</option>
+                    <option value="Information Science">Information Science</option>
+                    <option value="Electronics and Communication">Electronics and Communication</option>
+                    <option value="AIML">AIML</option>
+                    <option value="Electrical and Electronics">Electrical and Electronics</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Chemical">Chemical</option>
+                </select>
+            </div>
+            <div class="form-group" id="cgpaGroup" style="display: none;">
+                <label>CGPA:</label>
+                <input type="number" id="regCgpa" value="8.5" step="0.1" min="0" max="10">
+            </div>
+            <button onclick="testRegistration()">Test Registration</button>
+            <div id="regResult" class="result"></div>
+        </div>
+
+        <!-- Login Test -->
+        <div class="test-section">
+            <h3>🔐 Login Test</h3>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="loginEmail" value="test@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="loginPassword" value="password123">
+            </div>
+            <button onclick="testLogin()">Test Login</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <!-- Jobs Test -->
+        <div class="test-section">
+            <h3>💼 Jobs Test</h3>
+            <button onclick="testJobsFetch()">Test Jobs Fetch</button>
+            <button onclick="testJobPost()">Test Job Posting</button>
+            <div id="jobsResult" class="result"></div>
+        </div>
+
+        <!-- Profile Test -->
+        <div class="test-section">
+            <h3>👤 Profile Test</h3>
+            <button onclick="testProfile()">Test Profile Fetch</button>
+            <div id="profileResult" class="result"></div>
+        </div>
+
+        <!-- Token Test -->
+        <div class="test-section">
+            <h3>🎫 Token Test</h3>
+            <button onclick="testToken()">Test Token Validity</button>
+            <button onclick="clearToken()">Clear Token</button>
+            <div id="tokenResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // API URL configuration
+        function getApiUrl(endpoint) {
+            return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? `http://localhost:5000${endpoint}`
+                : `https://placement-portal-ir4x.onrender.com${endpoint}`;
+        }
+
+        // Show/hide form fields based on role
+        document.getElementById('regRole').addEventListener('change', function() {
+            const role = this.value;
+            const branchGroup = document.getElementById('branchGroup');
+            const cgpaGroup = document.getElementById('cgpaGroup');
+            
+            if (role === 'student') {
+                branchGroup.style.display = 'block';
+                cgpaGroup.style.display = 'block';
+            } else {
+                branchGroup.style.display = 'none';
+                cgpaGroup.style.display = 'none';
+            }
+        });
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+        }
+
+        async function testApiConfig() {
+            try {
+                const apiUrl = getApiUrl('/');
+                showResult('apiConfigResult', `Testing API configuration...\nURL: ${apiUrl}`, 'info');
+                
+                const response = await fetch(apiUrl);
+                const data = await response.text();
+                
+                if (response.ok) {
+                    showResult('apiConfigResult', `✅ API is accessible!\nStatus: ${response.status}\nResponse: ${data.substring(0, 200)}...`, 'success');
+                } else {
+                    showResult('apiConfigResult', `❌ API returned error: ${response.status}\n${data}`, 'error');
+                }
+            } catch (error) {
+                showResult('apiConfigResult', `❌ API connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testRegistration() {
+            try {
+                const role = document.getElementById('regRole').value;
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                
+                const userData = {
+                    name,
+                    email,
+                    password,
+                    role
+                };
+
+                if (role === 'student') {
+                    userData.branch = document.getElementById('regBranch').value;
+                    userData.cgpa = document.getElementById('regCgpa').value;
+                }
+
+                showResult('regResult', 'Testing registration...', 'info');
+                
+                const response = await fetch(getApiUrl('/api/auth/register'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('regResult', `✅ Registration successful!\nToken: ${data.token ? 'Received' : 'Not received'}\nMessage: ${data.msg}`, 'success');
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                    }
+                } else {
+                    showResult('regResult', `❌ Registration failed: ${data.msg}`, 'error');
+                }
+            } catch (error) {
+                showResult('regResult', `❌ Registration error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogin() {
+            try {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                showResult('loginResult', 'Testing login...', 'info');
+                
+                const response = await fetch(getApiUrl('/api/auth/login'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('loginResult', `✅ Login successful!\nToken: ${data.token ? 'Received' : 'Not received'}\nMessage: ${data.msg}`, 'success');
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                    }
+                } else {
+                    showResult('loginResult', `❌ Login failed: ${data.msg}`, 'error');
+                }
+            } catch (error) {
+                showResult('loginResult', `❌ Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testJobsFetch() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    showResult('jobsResult', '❌ No token available. Please login first.', 'error');
+                    return;
+                }
+
+                showResult('jobsResult', 'Testing jobs fetch...', 'info');
+                
+                const response = await fetch(getApiUrl('/api/jobs'), {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('jobsResult', `✅ Jobs fetch successful!\nFound ${data.length} jobs\nJobs: ${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    showResult('jobsResult', `❌ Jobs fetch failed: ${data.msg}`, 'error');
+                }
+            } catch (error) {
+                showResult('jobsResult', `❌ Jobs fetch error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testJobPost() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    showResult('jobsResult', '❌ No token available. Please login first.', 'error');
+                    return;
+                }
+
+                const testJob = {
+                    title: "Test Job",
+                    description: "This is a test job posting",
+                    company: "Test Company",
+                    salary: "6 LPA",
+                    branches: ["Computer Science Engineering"],
+                    location: "Test City",
+                    deadline: "2025-12-31",
+                    minCGPA: "7.0"
+                };
+
+                showResult('jobsResult', 'Testing job posting...', 'info');
+                
+                const response = await fetch(getApiUrl('/api/jobs'), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testJob)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('jobsResult', `✅ Job posting successful!\nJob ID: ${data.job._id}\nMessage: ${data.msg}`, 'success');
+                } else {
+                    showResult('jobsResult', `❌ Job posting failed: ${data.msg}`, 'error');
+                }
+            } catch (error) {
+                showResult('jobsResult', `❌ Job posting error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testProfile() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    showResult('profileResult', '❌ No token available. Please login first.', 'error');
+                    return;
+                }
+
+                showResult('profileResult', 'Testing profile fetch...', 'info');
+                
+                const response = await fetch(getApiUrl('/api/auth/me'), {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('profileResult', `✅ Profile fetch successful!\nUser: ${data.name}\nRole: ${data.role}\nEmail: ${data.email}`, 'success');
+                } else {
+                    showResult('profileResult', `❌ Profile fetch failed: ${data.msg}`, 'error');
+                }
+            } catch (error) {
+                showResult('profileResult', `❌ Profile fetch error: ${error.message}`, 'error');
+            }
+        }
+
+        function testToken() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showResult('tokenResult', '❌ No token found in localStorage', 'error');
+                return;
+            }
+
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+                const isExpired = payload.exp && payload.exp < currentTime;
+                
+                showResult('tokenResult', `Token Analysis:\n- Token exists: ✅\n- User ID: ${payload.id}\n- Role: ${payload.role}\n- Expires: ${new Date(payload.exp * 1000).toLocaleString()}\n- Is expired: ${isExpired ? '❌ Yes' : '✅ No'}`, isExpired ? 'error' : 'success');
+            } catch (error) {
+                showResult('tokenResult', `❌ Invalid token format: ${error.message}`, 'error');
+            }
+        }
+
+        function clearToken() {
+            localStorage.removeItem('token');
+            showResult('tokenResult', '✅ Token cleared from localStorage', 'success');
+        }
+
+        // Initialize the form
+        document.getElementById('regRole').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html> 
