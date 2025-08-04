@@ -1,6 +1,13 @@
 // Load dashboard data when page loads
 document.addEventListener("DOMContentLoaded", loadDashboard);
 
+// ✅ API URL configuration
+function getApiUrl(endpoint) {
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? `http://localhost:5000${endpoint}`
+    : `https://placement-portal-ir4x.onrender.com${endpoint}`;
+}
+
 function loadDashboard() {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -16,7 +23,7 @@ function loadDashboard() {
     document.getElementById("userRole").innerText = role.toUpperCase();
 
     // Load user data for the header
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch(getApiUrl("/api/auth/me"), {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -48,7 +55,7 @@ function loadDashboard() {
 async function loadOfficerDashboard(token, officerId) {
   try {
     // Fetch dashboard statistics
-    const statsResponse = await fetch("http://localhost:5000/api/applications/stats", {
+    const statsResponse = await fetch(getApiUrl("/api/applications/stats"), {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -292,7 +299,7 @@ function standardizeBranchName(branch) {
 
 function loadStudentDashboard(token) {
   // Load student profile data
-  fetch("http://localhost:5000/api/auth/me", {
+  fetch(getApiUrl("/api/auth/me"), {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -377,7 +384,7 @@ function loadStudentDashboard(token) {
       profileMsg.innerText = "Updating profile...";
       
       try {
-        const res = await fetch("http://localhost:5000/api/auth/update-profile", {
+        const res = await fetch(getApiUrl("/api/auth/update-profile"), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -438,7 +445,7 @@ function loadStudentDashboard(token) {
       document.getElementById("resumeMsg").innerText = "Uploading...";
 
       try {
-        const res = await fetch("http://localhost:5000/api/upload/resume", {
+        const res = await fetch(getApiUrl("/api/upload/resume"), {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`
@@ -458,7 +465,7 @@ function loadStudentDashboard(token) {
         // Update the current resume display
         if (data.resume) {
           document.getElementById("currentResume").innerHTML = `
-            <a href="http://localhost:5000${data.resume.path}" target="_blank">
+            <a href="${getApiUrl(data.resume.path)}" target="_blank">
               ${data.resume.filename || "Resume.pdf"}
             </a> (Uploaded just now)`;
         }
@@ -483,7 +490,7 @@ function loadStudentDashboard(token) {
 
   // Load available jobs
   // First fetch student's applications, then fetch and filter jobs
-  fetch("http://localhost:5000/api/applications", {
+  fetch(getApiUrl("/api/applications"), {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -497,7 +504,7 @@ function loadStudentDashboard(token) {
       document.getElementById("applicationsCount").innerText = applications.length;
       
       // Now fetch all jobs
-      return fetch("http://localhost:5000/api/jobs", {
+      return fetch(getApiUrl("/api/jobs"), {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -577,7 +584,7 @@ function applyToJob(jobId, btn) {
   const msgSpan = btn.nextElementSibling;
   msgSpan.innerText = "";
 
-  fetch(`http://localhost:5000/api/applications/${jobId}`, {
+  fetch(getApiUrl(`/api/applications/${jobId}`), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

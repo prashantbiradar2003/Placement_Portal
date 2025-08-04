@@ -263,7 +263,10 @@
     function startRealTimeUpdates() {
       // Try to use Server-Sent Events first if supported
       if (typeof EventSource !== "undefined") {
-        const evtSource = new EventSource("http://localhost:5000/api/stats/live");
+        const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? "http://localhost:5000"
+          : "https://placement-portal-ir4x.onrender.com";
+        const evtSource = new EventSource(`${apiUrl}/api/stats/live`);
         
         evtSource.onmessage = function(event) {
           try {
@@ -401,7 +404,10 @@
     function fetchAndUpdateStats() {
       // Add cache busting query parameter to avoid browser caching
       const cacheBuster = new Date().getTime();
-      fetch(`http://localhost:5000/api/stats?_=${cacheBuster}`)
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? "http://localhost:5000"
+        : "https://placement-portal-ir4x.onrender.com";
+      fetch(`${apiUrl}/api/stats?_=${cacheBuster}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -663,15 +669,19 @@
     try {
       // First try to fetch as a logged-in user with token
       let response;
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? "http://localhost:5000"
+        : "https://placement-portal-ir4x.onrender.com";
+      
       if (localStorage.getItem('token')) {
-        response = await fetch('http://localhost:5000/api/applications/stats', {
+        response = await fetch(`${apiUrl}/api/applications/stats`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
       } else {
         // For public access, try the public endpoint
-        response = await fetch('http://localhost:5000/api/public/stats');
+        response = await fetch(`${apiUrl}/api/public/stats`);
       }
       
       if (!response.ok) {

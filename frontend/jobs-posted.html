@@ -361,7 +361,9 @@
   <script src="script.js"></script>
   <script>
     // Base URL for API calls
-    const serverBaseUrl = "http://localhost:5000";
+    const serverBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? "http://localhost:5000"
+      : "https://placement-portal-ir4x.onrender.com";
     let userData = null;
     let allJobs = []; // Store all jobs
     let activeBranch = 'all'; // Currently active branch filter

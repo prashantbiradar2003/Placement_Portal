@@ -3,13 +3,13 @@
 // Base URL configuration for different environments
 const baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
   ? "http://localhost:5000/api/auth"
-  : "https://your-backend-app.onrender.com/api/auth"; // Replace with your Render URL
+  : "https://placement-portal-ir4x.onrender.com/api/auth"; // ✅ Fixed Render URL
 
 // ✅ Global API URL builder
 function getApiUrl(endpoint) {
   return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? `http://localhost:5000${endpoint}`
-    : `https://your-backend-app.onrender.com${endpoint}`;
+    : `https://placement-portal-ir4x.onrender.com${endpoint}`; // ✅ Fixed Render URL
 }
 
 // ✅ PING TEST

@@ -52,7 +52,7 @@ This guide will help you deploy your College Placement Portal to:
 1. **Update `frontend/config.js`**
    ```javascript
    // Replace with your actual Render URL
-   apiBaseUrl: "https://your-backend-app.onrender.com"
+   apiBaseUrl: "https://placement-portal-ir4x.onrender.com"
    ```
 
 2. **Update `backend/server.js`**
