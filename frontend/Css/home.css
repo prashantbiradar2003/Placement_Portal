@@ -808,7 +808,7 @@ hr {
   background-color: var(--secondary-color);
 }
 
-/* Improved Responsive Styles */
+/* Enhanced Mobile Responsive Styles */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -822,6 +822,7 @@ hr {
     padding: 10px 0;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
   }
   
   #clgname {
@@ -829,6 +830,7 @@ hr {
     order: 2;
     padding-top: 5px;
     font-size: 12px;
+    line-height: 1.3;
   }
   
   .himg {
@@ -838,12 +840,14 @@ hr {
   
   .hero-content {
     padding: 30px 15px;
+    text-align: center;
   }
   
   h1 {
     font-size: 28px;
-    width: 90%;
+    width: 100%;
     text-align: center;
+    line-height: 1.2;
   }
   
   .welcome {
@@ -851,13 +855,14 @@ hr {
   }
   
   .hcontent {
-    width: 90%;
+    width: 100%;
     font-size: 16px;
     text-align: center;
+    margin: 0 auto;
   }
   
   .stat1 {
-    width: 90%;
+    width: 100%;
     padding: 15px 0;
     margin: 0 auto;
   }
@@ -867,7 +872,7 @@ hr {
   }
   
   .st1, .st2 {
-    width: 90%;
+    width: 100%;
     margin: 0 auto 20px auto;
   }
   
@@ -877,6 +882,45 @@ hr {
   
   .footer2 {
     padding: 0 15px;
+  }
+  
+  /* Dashboard overview improvements */
+  .dashboard-overview {
+    padding: 20px 15px;
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .stat-card {
+    padding: 15px;
+    min-height: 120px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+  }
+  
+  /* Department offers table */
+  .dept-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .dept-table {
+    min-width: 500px;
+  }
+  
+  .dept-table th,
+  .dept-table td {
+    padding: 8px;
+    font-size: 0.9rem;
   }
 }
 
@@ -898,9 +942,10 @@ hr {
   }
   
   button {
-    width: 90%;
-    height: 45px;
+    width: 100%;
+    height: 50px;
     font-size: 16px;
+    min-height: 44px;
   }
   
   .sthead {
@@ -908,7 +953,97 @@ hr {
   }
   
   .carousel {
-    width: 95%;
+    width: 100%;
+  }
+  
+  /* Single column stats on very small screens */
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .stat-card {
+    padding: 12px;
+    min-height: 100px;
+  }
+  
+  .stat-value {
+    font-size: 1.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  /* Improve sidebar for mobile */
+  .sidebar {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .sidebar-menu li a {
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+  
+  /* Better hamburger positioning */
+  .hamburger {
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header {
+    padding: 15px 20px;
+  }
+  
+  #clgname {
+    font-size: 14px;
+  }
+  
+  .himg {
+    height: 70px;
+  }
+  
+  .hero-content {
+    padding: 40px 30px;
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .nav {
+    width: 85%;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .navb {
+    padding: 12px 20px;
+    min-height: 44px;
+  }
+  
+  .sidebar-menu li a {
+    padding: 15px 20px;
+    min-height: 44px;
+  }
+  
+  .close-sidebar {
+    width: 50px;
+    height: 50px;
+    min-height: 44px;
+  }
+  
+  .hamburger {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
