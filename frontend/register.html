@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register - College Placement Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./mobile-responsive.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -173,6 +175,29 @@
   </style>
 </head>
 <body>
+    <!-- Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+      <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="sidebar-header">
+        <img src="./assets/Sdm_logo.png" alt="SDMCET Logo" class="sidebar-logo">
+        <div class="sidebar-title">SDMCET Placement Portal</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="./index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="./about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="./contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        <li><a href="./register.html" class="active"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        <li><a href="https://sdmcet.ac.in/"><i class="fas fa-university"></i> SDMCET Website</a></li>
+      </ul>
+    </div>
+    
+    <!-- Mobile Menu Toggle -->
+    <button class="hamburger" id="openSidebar">
+      <i class="fas fa-bars"></i>
+    </button>
   <div class="container">
     <h1>Create Account</h1>
     
@@ -230,6 +255,33 @@
   <script src="./config.js"></script>
 
   <script>
+    // Mobile sidebar functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const openSidebar = document.getElementById('openSidebar');
+      const closeSidebar = document.getElementById('closeSidebar');
+      
+      function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+      }
+      
+      openSidebar.addEventListener('click', toggleSidebar);
+      closeSidebar.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', toggleSidebar);
+      
+      // Close sidebar when window is resized to desktop size
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && sidebar.classList.contains('active')) {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
     function checkLoginStatus() {
       const token = localStorage.getItem("token");
       if (token) {
