@@ -6,144 +6,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - College Placement Portal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="./mobile-responsive.css" />
-
-
-    /* Enhanced mobile-responsive login styles */
-    * {
+  <style>
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-color: #f0f5ff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 20px;
     }
-
+    
     .container {
-      width: 100%;
       max-width: 400px;
-      padding: 30px 20px;
+      padding: 40px;
       background-color: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
-
+    
     h1 {
       color: #A62C2C;
       margin-bottom: 30px;
-      font-size: 2rem;
-      font-weight: 600;
     }
-
+    
     p {
       color: #7f8c8d;
       margin-top: 20px;
-      font-size: 0.9rem;
     }
-
+    
     .form-group {
       margin-bottom: 20px;
       text-align: left;
     }
-
+    
     label {
       display: block;
       margin-bottom: 8px;
       color: #34495e;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: bold;
     }
-
-    input {
+    
+    input, select {
       width: 100%;
-      padding: 15px 12px;
+      padding: 12px;
       box-sizing: border-box;
-      border: 2px solid #e1e8ed;
-      border-radius: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
       font-size: 16px;
-      transition: all 0.3s ease;
-      background-color: #f8f9fa;
-      min-height: 50px;
+      transition: border 0.3s ease;
     }
-
-    input:focus {
+    
+    input:focus, select:focus {
       border-color: #A62C2C;
       outline: none;
-      background-color: white;
-      box-shadow: 0 0 0 3px rgba(166, 44, 44, 0.1);
     }
-
+    
     button {
       width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #A62C2C 0%, #E83F25 100%);
+      padding: 12px;
+      background-color: #A62C2C;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       font-size: 16px;
-      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      min-height: 50px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
-
+    
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(166, 44, 44, 0.3);
+      background-color: #E83F25;
     }
-
-    button:active {
-      transform: translateY(0);
-    }
-
+    
     .message {
       margin-top: 20px;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 500;
-    }
-
-    .message.error {
-      background-color: #fee;
       color: #e74c3c;
-      border: 1px solid #fcc;
     }
-
-    .message.success {
-      background-color: #efe;
-      color: #27ae60;
-      border: 1px solid #cfc;
+    
+    .success {
+      color: #EA7300;
     }
-
+    
     .links {
-      margin-top: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      margin-top: 20px;
     }
-
+    
     .links a {
       color: #EA7300;
       text-decoration: none;
-      font-weight: 500;
-      padding: 8px 0;
-      transition: color 0.3s ease;
+      margin: 0 10px;
     }
-
+    
     .links a:hover {
       text-decoration: underline;
     }
@@ -155,64 +112,19 @@
       }
       
       .container {
-        padding: 25px 15px;
-        border-radius: 12px;
-      }
-      
-      h1 {
-        font-size: 1.75rem;
-        margin-bottom: 25px;
-      }
-      
-      input {
-        padding: 12px 10px;
-        font-size: 16px; /* Prevents zoom on iOS */
-      }
-      
-      button {
-        padding: 12px;
-        font-size: 16px;
-      }
-      
-      .links {
-        margin-top: 20px;
-      }
-      
-      .links a {
-        padding: 10px 0;
-        font-size: 0.9rem;
-      }
-    }
-    
-    @media (max-width: 320px) {
-      .container {
-        padding: 20px 10px;
+        padding: 30px 20px;
       }
       
       h1 {
         font-size: 1.5rem;
       }
       
-      input {
-        padding: 10px 8px;
+      input, select {
+        padding: 10px;
       }
       
       button {
         padding: 10px;
-      }
-    }
-    
-    /* Touch-friendly improvements */
-    @media (hover: none) and (pointer: coarse) {
-      input, button {
-        min-height: 44px;
-      }
-      
-      .links a {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
     }
   </style>
