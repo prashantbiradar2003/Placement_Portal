@@ -1,5 +1,39 @@
 /* Mobile Responsive Styles for Home, About, and Contact Pages */
 
+/* Hamburger Menu Button - Top Right Corner */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 0px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10000000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.hamburger:hover {
+  background: var(--secondary-color);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
 /* Mobile Sidebar Styles */
 .sidebar {
   position: fixed;
@@ -423,8 +457,10 @@
     width: 40px;
     height: 40px;
     font-size: 18px;
-    top: 10px;
+    top: 0px;
     right: 10px;
+    margin-bottom: 10px;
+    z-index: 10000000;
   }
 
   .sidebar {
