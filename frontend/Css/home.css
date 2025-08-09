@@ -23,10 +23,14 @@ body {
 .bg {
   background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url(../assets/home_bg.png);
   width: 100%;
-  height: auto;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding-bottom: 40px;
+  position: relative;
+  overflow-x: hidden;
 }
 
 /* header css starts here  */
@@ -66,30 +70,295 @@ body {
 
 @media (max-width: 768px) {
   .header {
-    padding: 10px;
-    flex-direction: row;
-    justify-content: space-around;
+    padding: 20px 15px;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    min-height: 60px;
   }
   
   #clgname {
-    width: 60%;
-    font-size: 10px;
+    width: 100%;
+    font-size: 14px;
     font-family: 'Lexend Deca', sans-serif;
-    font-weight: 300;
-    padding-top: 3%;
+    font-weight: 500;
+    padding: 0;
     text-align: center;
     color: var(--text-light);
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  .himg {
+    display: none; /* Hide logos on mobile */
+  }
+  
+  .bg {
+    padding-bottom: 20px;
+    background-attachment: scroll; /* Better performance on mobile */
+    min-height: 100vh;
+  }
+  
+  /* Mobile container improvements */
+  .hero-content {
+    padding: 20px 15px;
+    margin: 0 10px;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .hero-content h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .welcome {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  #typed-text {
+    font-size: 24px;
+    display: block;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+  
+  .hcontent {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 20px 0;
+    padding: 0 10px;
+  }
+  
+  .dashboard-overview {
+    margin: 30px 10px 20px 10px;
+    padding: 20px 15px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: calc(100vw - 40px);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .dashboard-title {
+    font-size: 22px;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .stats-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .stat-card {
+    padding: 20px 15px;
+    border-radius: 12px;
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(166, 44, 44, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+  
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  /* Department Offers Mobile Styling */
+  .department-offers {
+    margin: 25px 10px 20px 10px;
+    padding: 20px 15px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: calc(100vw - 40px);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .dept-title {
+    font-size: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  .dept-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: 0 -5px;
+  }
+  
+  .dept-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 13px;
+    min-width: 250px;
+    table-layout: fixed;
+  }
+  
+  .dept-table th:first-child,
+  .dept-table td:first-child {
+    width: 60%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .dept-table th:last-child,
+  .dept-table td:last-child {
+    width: 40%;
+    text-align: center;
+  }
+  
+  .dept-table th {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  
+  .dept-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e9ecef;
+    color: #495057;
+  }
+  
+  .dept-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .loading-text {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px 10px;
+    min-height: 50px;
+  }
+  
+  #clgname {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0;
+    line-height: 1.3;
+  }
+  
+  .himg {
+    display: none; /* Keep logos hidden on mobile */
+  }
+  
+  .hero-content {
+    padding: 15px 10px;
+    margin: 0 5px;
+  }
+  
+  .dashboard-overview {
+    margin: 15px 5px;
+    padding: 15px 10px;
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  
+  .stat-card {
+    padding: 12px 8px;
+  }
+  
+  .nav {
+    margin: 15px 5px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .navb {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header {
+    padding: 12px 8px;
+    min-height: 45px;
+  }
+  
+  #clgname {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 0;
     line-height: 1.2;
   }
   
   .himg {
-    padding-top: 3%;
-    padding-bottom: 1%;
-    height: 60px;
-    width: auto;
-    max-width: 80px;
+    display: none; /* Keep logos hidden on small mobile */
+  }
+  
+  .hero-content {
+    padding: 12px 8px;
+    margin: 0 3px;
+  }
+  
+  .dashboard-overview {
+    margin: 12px 3px;
+    padding: 12px 8px;
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .stat-card {
+    padding: 10px 6px;
   }
 }
 /* header css ends here  */
@@ -384,6 +653,88 @@ button:active {
     font-size: 1.5em;
     margin-bottom: 3px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 480px) {
+  .stat1 {
+    padding: 15px 5px;
+    font-size: 12px;
+    margin: 20px 5px 0;
+    gap: 10px;
+  }
+  
+  .stat1 p {
+    padding: 6px 3px;
+    min-width: 45%;
+    margin: 3px;
+    font-size: 11px;
+  }
+  
+  .counter {
+    font-size: 1.3em;
+    margin-bottom: 2px;
+  }
+  
+  /* Department Offers - Extra Small Mobile */
+  .department-offers {
+    margin: 20px 5px 15px 5px;
+    padding: 15px 10px;
+    max-width: calc(100vw - 20px);
+    box-sizing: border-box;
+  }
+  
+  .dept-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  .dept-table-container {
+    margin: 0 -3px;
+  }
+  
+  .dept-table {
+    font-size: 12px;
+    min-width: 240px;
+  }
+  
+  .dept-table th {
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+  
+  .dept-table td {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+  
+  /* Dashboard Overview - Extra Small Mobile */
+  .dashboard-overview {
+    margin: 20px 5px 15px 5px;
+    padding: 15px 10px;
+    max-width: calc(100vw - 20px);
+    box-sizing: border-box;
+  }
+  
+  .dashboard-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .stat-card {
+    padding: 15px 10px;
+  }
+  
+  .stat-icon {
+    font-size: 1.8rem;
+  }
+  
+  .stat-value {
+    font-size: 1.6rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
   }
 }
 

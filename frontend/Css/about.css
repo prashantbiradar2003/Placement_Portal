@@ -56,30 +56,63 @@ body {
 
 @media (max-width: 768px) {
   .header {
-    padding: 10px;
-    flex-direction: row;
-    justify-content: space-around;
+    padding: 20px 15px;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    min-height: 60px;
   }
   
   #clgname {
-    width: 60%;
-    font-size: 10px;
+    width: 100%;
+    font-size: 14px;
     font-family: 'Lexend Deca', sans-serif;
-    font-weight: 300;
-    padding-top: 3%;
+    font-weight: 500;
+    padding: 0;
     text-align: center;
     color: var(--text-light);
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  .himg {
+    display: none; /* Hide logos on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px 10px;
+    min-height: 50px;
+  }
+  
+  #clgname {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0;
+    line-height: 1.3;
+  }
+  
+  .himg {
+    display: none; /* Keep logos hidden on mobile */
+  }
+}
+
+@media (max-width: 360px) {
+  .header {
+    padding: 12px 8px;
+    min-height: 45px;
+  }
+  
+  #clgname {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 0;
     line-height: 1.2;
   }
   
   .himg {
-    padding-top: 3%;
-    padding-bottom: 1%;
-    height: 60px;
-    width: auto;
-    max-width: 80px;
+    display: none; /* Keep logos hidden on small mobile */
   }
 }
 /* header css ends here  */
